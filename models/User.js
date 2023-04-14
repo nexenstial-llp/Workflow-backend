@@ -30,6 +30,9 @@ const userSchema=new mongoose.Schema({
         // required:true,
         default: ['user']
     },
+    phoneNo:{
+        type:Number
+    },
     photo:{
         id:{
             type:String,
@@ -38,7 +41,6 @@ const userSchema=new mongoose.Schema({
             type:String,
         }
     },
-    
     forgotPasswordToken:String,
     forgotPasswordExpiry:Date,
 })
@@ -59,7 +61,7 @@ userSchema.methods.isValidatedPassword= async function(usersendPassword, passwor
 // create and return jwt token
 userSchema.methods.getJwtToken=function(){
     return jwt.sign({id:this._id},process.env.JWT_SECRET,{
-        expiresIn:process.env.JWT_EXPIRY
+        expiresIn:process.env.JWT_EXPIRE
     })
 }
 
