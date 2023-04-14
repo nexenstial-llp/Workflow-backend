@@ -2,16 +2,12 @@ import bigPromise from "../../middlewares/bigPromise.js";
 import Process from "../../models/Process/process.model.js";
 
 export const createProcess = bigPromise(async (req, res) => {
-  const { name, description, status, Fields, Approvals } = req.body;
-
-  console.log(Fields, Approvals);
+  const { name, description } = req.body;
 
   const newDocument = new Process({
     name: name,
     description: description,
-    Fields: Fields,
-    Approvals: Approvals,
-    status: status,
+    status: 'ACTIVE',
   });
 
   newDocument
@@ -26,14 +22,14 @@ export const createProcess = bigPromise(async (req, res) => {
 
 export const updateProcess = bigPromise(async (req, res) => {
   const { id } = req.params;
-  const { name, description, status, Fields, Approvals } = req.body;
+  const { name, description, status, section, approvals } = req.body;
   await Process.findByIdAndUpdate(id, {
     $set: {
       name: name,
       description: description,
       status: status,
-      Fields: Fields,
-      Approvals: Approvals,
+      section: section,
+      approvals: approvals,
     },
   })
     .then((doc) => {

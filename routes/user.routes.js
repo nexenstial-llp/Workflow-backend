@@ -17,7 +17,7 @@ router.route("/userDashboard/update").post(isLoggedIn, updateUserDetails)
 
 
 // admin routes
-router.route("/admin/users").post(isLoggedIn,customRole("admin"), adminAllUsers)
+router.route("/admin/users").get(adminAllUsers)
 router.route("/admin/users/:id")
 .get(isLoggedIn,customRole("admin"), adminGetOneUser)
 .put(isLoggedIn,customRole("admin"), adminUpdateOneUser)
