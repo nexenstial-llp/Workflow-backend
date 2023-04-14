@@ -7,15 +7,15 @@ export const createProcess = bigPromise(async (req, res) => {
   const newDocument = new Process({
     name: name,
     description: description,
-    status: 'ACTIVE',
+    status: "ACTIVE",
   });
 
   newDocument
     .save()
     .then((doc) => {
       res.status(201).json({
-        success:true,
-        data:doc
+        success: true,
+        data: doc,
       });
     })
     .catch((err) => {
@@ -25,10 +25,11 @@ export const createProcess = bigPromise(async (req, res) => {
 
 export const updateProcess = bigPromise(async (req, res) => {
   const { id } = req.params;
-  const { name, description, status, section, approvals } = req.body;
+  const { title, description, status, section, approvals } = req.body;
+  console.log(section[0].fields);
   await Process.findByIdAndUpdate(id, {
     $set: {
-      name: name,
+      name: title,
       description: description,
       status: status,
       section: section,
@@ -36,9 +37,12 @@ export const updateProcess = bigPromise(async (req, res) => {
     },
   })
     .then((doc) => {
-      res.status(201).json(doc);
+      res.status(201).json({
+        success:true,
+        data:doc});
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).json({ error: err.message });
     });
 });

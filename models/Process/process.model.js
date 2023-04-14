@@ -9,14 +9,19 @@ const processSchema = new mongoose.Schema({
     type: String,
   },
   section: [
-    {name: String,
-    fields: [
-    {
-      name: String,
-      type_of_field: String,
-      required: Boolean,
-      key: String,
-    }]}
+   {
+      title: String,
+      description: String,
+      fields: [
+        {
+          title: String,
+          type_of_field: String,
+          required: Boolean,
+          options: [String],
+          placeholder: String,
+        },
+      ],
+    },
   ],
   approvals: [
     {
