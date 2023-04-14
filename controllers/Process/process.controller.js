@@ -2,24 +2,20 @@ import bigPromise from "../../middlewares/bigPromise.js";
 import Process from "../../models/Process/process.model.js";
 
 export const createProcess = bigPromise(async (req, res) => {
-  const { name, description, status, Fields, Approvals } = req.body;
-
-  console.log(Fields, Approvals);
+  const { name, description } = req.body;
 
   const newDocument = new Process({
     name: name,
     description: description,
-    Fields: Fields,
-    Approvals: Approvals,
-    status: status,
+    status: "ACTIVE",
   });
 
   newDocument
     .save()
     .then((doc) => {
       res.status(201).json({
-        success:true,
-        data:doc
+        success: true,
+        data: doc,
       });
     })
     .catch((err) => {
@@ -29,20 +25,24 @@ export const createProcess = bigPromise(async (req, res) => {
 
 export const updateProcess = bigPromise(async (req, res) => {
   const { id } = req.params;
-  const { name, description, status, Fields, Approvals } = req.body;
+  const { title, description, status, section, approvals } = req.body;
+  console.log(section[0].fields);
   await Process.findByIdAndUpdate(id, {
     $set: {
-      name: name,
+      name: title,
       description: description,
       status: status,
-      Fields: Fields,
-      Approvals: Approvals,
+      section: section,
+      approvals: approvals,
     },
   })
     .then((doc) => {
-      res.status(201).json(doc);
+      res.status(201).json({
+        success:true,
+        data:doc});
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).json({ error: err.message });
     });
 });
