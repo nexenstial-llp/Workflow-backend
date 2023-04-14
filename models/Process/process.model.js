@@ -14,7 +14,6 @@ const processSchema = new mongoose.Schema({
       type_of_field: String,
       required: Boolean,
       key: String,
-      _id: false,
     },
   ],
   Approvals: [
@@ -30,7 +29,6 @@ const processSchema = new mongoose.Schema({
       status: {
         type: String,
       },
-      _id: false,
     },
   ],
   status: {
