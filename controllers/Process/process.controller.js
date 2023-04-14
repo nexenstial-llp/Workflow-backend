@@ -13,7 +13,10 @@ export const createProcess = bigPromise(async (req, res) => {
   newDocument
     .save()
     .then((doc) => {
-      res.status(201).json(doc);
+      res.status(201).json({
+        success:true,
+        data:doc
+      });
     })
     .catch((err) => {
       res.status(500).json({ error: err.message });

@@ -11,16 +11,10 @@ const processSchema = new mongoose.Schema({
   section: [
     {
       name: String,
-      description: String,
-      fields: [
-        {
-          name: String,
-          type: String,
-          required: Boolean,
-          options: [String],
-          placeholder: String,
-        }]
-      },
+      type_of_field: String,
+      required: Boolean,
+      key: String,
+    },
   ],
   approvals: [
     {
@@ -35,7 +29,6 @@ const processSchema = new mongoose.Schema({
       status: {
         type: String,
       },
-      _id: false,
     },
   ],
   status: {
