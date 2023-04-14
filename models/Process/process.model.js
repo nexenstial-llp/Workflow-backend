@@ -11,14 +11,12 @@ const processSchema = new mongoose.Schema({
   section: [
     {
       name: String,
-      _id: false,
       description: String,
       fields: [
         {
           name: String,
           type: String,
           required: Boolean,
-          _id: false,
           options: [String],
           placeholder: String,
         }]
