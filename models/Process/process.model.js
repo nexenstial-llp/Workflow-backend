@@ -10,15 +10,19 @@ const processSchema = new mongoose.Schema({
   },
   section: [
    {
+      id: Number,
+      _id: false,
       title: String,
       description: String,
       fields: [
         {
+          id:  Number,
           title: String,
           type_of_field: String,
           required: Boolean,
           options: [String],
           placeholder: String,
+          _id: false,
         },
       ],
     },
@@ -26,16 +30,15 @@ const processSchema = new mongoose.Schema({
   approvals: [
     {
       name: String,
-      Type: {
+      type_of_approval: {
         type: String,
-        enum: ["input", "approval"],
+        enum: ["input", "approval", "create"],
       },
-      user_id: Number,
-      Hidden_fields: [String],
-      Read_Only_field: [String],
-      status: {
-        type: String,
-      },
+      users: [String],
+      hidden_fields: [String],
+      read_only_field: [String],
+      status: String,
+      access_to_all: Boolean,
     },
   ],
   status: {
