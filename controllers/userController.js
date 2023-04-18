@@ -5,11 +5,11 @@ import { mailHelper } from "../utils/mailHelper.js";
 import crypto from "crypto";
 
 export const signup = bigPromise(async (req, res, next) => {
-  const { name, email, password,role} = req.body.details;
+  const { name, email, password,role} = req.body;
   console.log(req.body);
   const photo = req.body.photo;
   const phone = req.body.phone;
-  console.log(name,email,phone);
+  
   if (!email || !name || !password) {
     return res.status(400).json({
       success: "false",

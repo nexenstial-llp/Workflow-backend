@@ -61,7 +61,7 @@ userSchema.methods.isValidatedPassword= async function(usersendPassword, passwor
 // create and return jwt token
 userSchema.methods.getJwtToken=function(){
     return jwt.sign({id:this._id},process.env.JWT_SECRET,{
-        expiresIn:process.env.JWT_EXPIRE
+        expiresIn:'1d'
     })
 }
 

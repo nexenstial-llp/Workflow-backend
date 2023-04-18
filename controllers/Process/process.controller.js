@@ -40,8 +40,9 @@ export const updateProcess = bigPromise(async (req, res) => {
   })
     .then((doc) => {
       res.status(201).json({
-        success:true,
-        data:doc});
+        success: true,
+        data: doc
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -68,6 +69,42 @@ export const getProcessbyID = bigPromise(async (req, res) => {
 
 export const getAllProcesses = bigPromise(async (req, res) => {
   await Process.find({})
+    .then((data) => {
+      res.status(201).json({
+        message: "Successfully sent all details",
+        data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(501).json({
+        message: "Something Error",
+      });
+    });
+});
+
+
+
+
+export const getAllCreateProcess = bigPromise(async (req, res) => {
+  const { id } = req.user
+  console.log('id', id)
+
+  await Process.find({
+    $and: [
+      { status: "ACTIVE" },
+      {
+        approvals: {
+          $elemMatch: {
+            'type_of_approval': 'create',
+            $or: [{ 'access_to_all': true }, { 'users': id }]
+          },
+        }
+      }
+
+    ]
+
+  })
     .then((data) => {
       res.status(201).json({
         message: "Successfully sent all details",
