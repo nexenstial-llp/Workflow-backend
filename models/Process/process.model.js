@@ -21,7 +21,7 @@ const processSchema = new mongoose.Schema({
           type_of_field: String,
           required: Boolean,
           options: [String],
-          placeholder: String,
+          placeHolder: String,
           _id: false,
         },
       ],

@@ -3,7 +3,7 @@ import Process from "../../models/Process/process.model.js";
 
 export const createProcess = bigPromise(async (req, res) => {
   const { name, description, section, approvals } = req.body;
-
+  console.log(name,description);
   const newDocument = new Process({
     name: name,
     description: description,
@@ -41,7 +41,7 @@ export const updateProcess = bigPromise(async (req, res) => {
     .then((doc) => {
       res.status(201).json({
         success: true,
-        data: doc
+        data: doc,
       });
     })
     .catch((err) => {
@@ -55,6 +55,7 @@ export const getProcessbyID = bigPromise(async (req, res) => {
   await Process.findById(id)
     .then((data) => {
       res.status(201).json({
+        success:true,
         message: "Successfully sent all details",
         data,
       });
@@ -71,6 +72,7 @@ export const getAllProcesses = bigPromise(async (req, res) => {
   await Process.find({})
     .then((data) => {
       res.status(201).json({
+        success:true,
         message: "Successfully sent all details",
         data,
       });
