@@ -3,7 +3,7 @@ import Process from "../../models/Process/process.model.js";
 
 export const createProcess = bigPromise(async (req, res) => {
   const { name, description, section, approvals } = req.body;
-  console.log(name,description);
+  console.log(name, description);
   const newDocument = new Process({
     name: name,
     description: description,
@@ -28,7 +28,7 @@ export const createProcess = bigPromise(async (req, res) => {
 export const updateProcess = bigPromise(async (req, res) => {
   const { id } = req.params;
   const { title, description, status, section, approvals } = req.body;
-
+  console.log(id, approvals);
   await Process.findByIdAndUpdate(id, {
     $set: {
       name: title,
@@ -55,7 +55,7 @@ export const getProcessbyID = bigPromise(async (req, res) => {
   await Process.findById(id)
     .then((data) => {
       res.status(201).json({
-        success:true,
+        success: true,
         message: "Successfully sent all details",
         data,
       });
@@ -72,7 +72,7 @@ export const getAllProcesses = bigPromise(async (req, res) => {
   await Process.find({})
     .then((data) => {
       res.status(201).json({
-        success:true,
+        success: true,
         message: "Successfully sent all details",
         data,
       });
@@ -85,12 +85,9 @@ export const getAllProcesses = bigPromise(async (req, res) => {
     });
 });
 
-
-
-
 export const getAllCreateProcess = bigPromise(async (req, res) => {
-  const { id } = req.user
-  console.log('id', id)
+  const { id } = req.user;
+  console.log("id", id);
 
   await Process.find({
     $and: [
@@ -98,17 +95,16 @@ export const getAllCreateProcess = bigPromise(async (req, res) => {
       {
         approvals: {
           $elemMatch: {
-            'type_of_approval': 'create',
-            $or: [{ 'access_to_all': true }, { 'users': id }]
+            type_of_approval: "create",
+            $or: [{ access_to_all: true }, { users: id }],
           },
-        }
-      }
-
-    ]
-
+        },
+      },
+    ],
   })
     .then((data) => {
       res.status(201).json({
+        success:true,
         message: "Successfully sent all details",
         data,
       });

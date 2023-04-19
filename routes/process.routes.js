@@ -16,5 +16,4 @@ router.route("/get/:id").get(getProcessbyID);
 router.route("/get").get(getAllProcesses);
 router.route("/create/all").get(isLoggedIn, getAllCreateProcess);
 
-
 export default router;
