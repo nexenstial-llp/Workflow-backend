@@ -24,8 +24,12 @@ app.use(express.urlencoded({extended:true}))
 import userRoutes from "./routes/user.routes.js"
 import processRoutes from "./routes/process.routes.js"
 import requestRoutes from "./routes/requests.routes.js"
+import applicationRoutes from "./routes/application.routes.js"
+
 // router middleware
 app.use("/api/user",userRoutes);
 app.use("/api/process",processRoutes)
+app.use("/api/application",applicationRoutes)
+
 app.use("/api/requests",requestRoutes);
 export default app;

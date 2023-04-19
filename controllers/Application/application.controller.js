@@ -1,14 +1,25 @@
 import bigPromise from "../../middlewares/bigPromise.js";
-import Process from "../../models/Process/process.model.js";
+import Application from "../../models/Application/application.model.js";
 
-export const createProcess = bigPromise(async (req, res) => {
-  const { name, description, section, approvals } = req.body;
 
-  const newDocument = new Process({
+export const createApplication = bigPromise(async (req, res) => {
+  const { name, description, section, approvals, process_id } = req.body;
+
+  if(!name || !description || !section || !approvals || !process_id){
+    return res.status(400).json({
+        success: false,
+        message: "Bad Request",
+    });
+}
+
+
+  const newDocument = new Application({
     name: name,
     description: description,
     section: section,
     approvals: approvals,
+    process_id: process_id,
+    created_by: req.user._id,
     status: "ACTIVE",
   });
 
@@ -17,6 +28,7 @@ export const createProcess = bigPromise(async (req, res) => {
     .then((doc) => {
       res.status(201).json({
         success: true,
+        message: "Successfully created",
         data: doc,
       });
     })
@@ -25,14 +37,13 @@ export const createProcess = bigPromise(async (req, res) => {
     });
 });
 
-export const updateProcess = bigPromise(async (req, res) => {
-  const { id } = req.params;
-  const { title, description, status, section, approvals } = req.body;
+export const updateApplication = bigPromise(async (req, res) => {
 
-  await Process.findByIdAndUpdate(id, {
+  const { id } = req.params;
+  const {  status, section, approvals } = req.body;
+
+  await Application.findByIdAndUpdate(id, {
     $set: {
-      name: title,
-      description: description,
       status: status,
       section: section,
       approvals: approvals,
@@ -50,26 +61,11 @@ export const updateProcess = bigPromise(async (req, res) => {
     });
 });
 
-export const getProcessbyID = bigPromise(async (req, res) => {
+
+export const getApplicationbyID = bigPromise(async (req, res) => {
   const { id } = req.params;
-  await Process.findById(id)
-    .then((data) => {
-      res.status(201).json({
-        success:true,
-        message: "Successfully sent all details",
-        data,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(501).json({
-        message: "Something Error",
-      });
-    });
-});
 
-export const getAllProcesses = bigPromise(async (req, res) => {
-  await Process.find({})
+  await Application.findById(id)
     .then((data) => {
       res.status(201).json({
         success:true,
@@ -86,29 +82,11 @@ export const getAllProcesses = bigPromise(async (req, res) => {
 });
 
 
-
-
-export const getAllCreateProcess = bigPromise(async (req, res) => {
-  const { id } = req.user
-  console.log('id', id)
-
-  await Process.find({
-    $and: [
-      { status: "ACTIVE" },
-      {
-        approvals: {
-          $elemMatch: {
-            'type_of_approval': 'create',
-            $or: [{ 'access_to_all': true }, { 'users': id }]
-          },
-        }
-      }
-
-    ]
-
-  })
+export const getAllApplications = bigPromise(async (req, res) => {
+  await Application.find({})
     .then((data) => {
       res.status(201).json({
+        success:true,
         message: "Successfully sent all details",
         data,
       });
@@ -120,3 +98,4 @@ export const getAllCreateProcess = bigPromise(async (req, res) => {
       });
     });
 });
+
