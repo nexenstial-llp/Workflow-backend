@@ -3,7 +3,9 @@ import Application from "../../models/Application/application.model.js";
 
 
 export const createApplication = bigPromise(async (req, res) => {
+
   const { name, description, section, approvals, process_id } = req.body;
+
 
   if(!name || !description || !section || !approvals || !process_id){
     return res.status(400).json({
@@ -12,6 +14,12 @@ export const createApplication = bigPromise(async (req, res) => {
     });
 }
 
+approvals.forEach((approval) => {
+    if(approval.type_of_approval === "create"){
+      approval.approval_by = req.user._id;
+      approval.status = "Completed";
+    }
+  });
 
   const newDocument = new Application({
     name: name,
@@ -109,7 +117,8 @@ export const getAllInputRequests = bigPromise(async (req, res) => {
         approvals: {
           $elemMatch: {
             'type_of_approval': 'input',
-            $or: [{ 'access_to_all': true }, { 'users': id }]
+            $or: [{ 'access_to_all': true }, { 'users': id }],
+            'status': 'Pending'
           },
         }
       }
