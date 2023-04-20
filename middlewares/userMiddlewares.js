@@ -7,7 +7,7 @@ dotenv.config();
 export const isLoggedIn = bigPromise(async (req, res, next) => {
   const token =
     req.cookies.token ||
-    req.header("Authorization").replace("Bearer ", "") ||
+    req.header("Authorization")?.replace("Bearer ", "") ||
     req.cookies.token;
   // console.log(token)
   if (!token) {
@@ -31,7 +31,6 @@ export const customRole = (...roles) => {
         success: false,
         message: "you're not allowed for this resource.",
       });
-    }
-    next();
-  };
+
 };
+  }}

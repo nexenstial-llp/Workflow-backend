@@ -3,7 +3,7 @@ import Process from "../../models/Process/process.model.js";
 
 export const createProcess = bigPromise(async (req, res) => {
   const { name, description, section, approvals } = req.body;
-  console.log(name, description);
+  console.log(name,description);
   const newDocument = new Process({
     name: name,
     description: description,
