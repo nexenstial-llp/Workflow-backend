@@ -127,10 +127,27 @@ export const getAllInputRequests = bigPromise(async (req, res) => {
     
   })
     .then((data) => {
+
+
+      const newData = [];
+
+      data.forEach((item) => {
+
+        for(let i = 0; i < item.approvals.length; i++){
+          if(item.approvals[i].type_of_approval === "input" && item.approvals[i].status === "Pending" && (item.approvals[i].access_to_all || item.approvals[i].users.includes(id))){ 
+            if(item.approvals[i - 1].status == "Completed"){
+              newData.push(item);
+              return;
+            }
+          }
+        };
+      });
+
+
       res.status(201).json({
         success:true,
         message: "Successfully sent all details",
-        data,
+        data: newData,
       });
     })
     .catch((err) => {
@@ -159,10 +176,25 @@ export const getAllApprovals = bigPromise(async (req, res) => {
       ] 
     })
       .then((data) => {
+
+        const newData = [];
+
+        data.forEach((item) => {
+  
+          for(let i = 0; i < item.approvals.length; i++){
+            if(item.approvals[i].type_of_approval === "approval" && item.approvals[i].status === "Pending" && (item.approvals[i].access_to_all || item.approvals[i].users.includes(id))){ 
+              if(item.approvals[i - 1].status == "Completed"){
+                newData.push(item);
+                return;
+              }
+            }
+          };
+        });
+
         res.status(201).json({
           success:true,
           message: "Successfully sent all details",
-          data,
+          data: newData,
         });
       })
       .catch((err) => {
