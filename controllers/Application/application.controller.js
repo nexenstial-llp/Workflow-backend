@@ -99,3 +99,117 @@ export const getAllApplications = bigPromise(async (req, res) => {
     });
 });
 
+
+export const getAllInputRequests = bigPromise(async (req, res) => {
+
+  await Application.find({ 
+    $and: [
+      { status: "ACTIVE" },
+      {
+        approvals: {
+          $elemMatch: {
+            'type_of_approval': 'input',
+            $or: [{ 'access_to_all': true }, { 'users': id }]
+          },
+        }
+      }
+
+    ]
+    
+  })
+    .then((data) => {
+      res.status(201).json({
+        success:true,
+        message: "Successfully sent all details",
+        data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(501).json({
+        message: "Something Error",
+      });
+    });
+}
+);
+
+export const getAllApprovals = bigPromise(async (req, res) => {
+  
+    await Application.find({ 
+      $and: [
+        { status: "ACTIVE" },
+        {
+          approvals: {
+            $elemMatch: {
+              'type_of_approval': 'approval',
+              $or: [{ 'access_to_all': true }, { 'users': id }],
+              'status': 'Pending'
+            },
+          }
+        }
+      ] 
+    })
+      .then((data) => {
+        res.status(201).json({
+          success:true,
+          message: "Successfully sent all details",
+          data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(501).json({
+          message: "Something Error",
+        });
+      });
+  }
+  );
+
+
+
+export const getAllDashboardData = bigPromise(async (req, res) => {
+
+    const  id  = req.user._id;
+    const inputRequests = await Application.find({
+      $and: [
+        { status: "ACTIVE" },
+        {
+          approvals: {
+            $elemMatch: {
+              'type_of_approval': 'input',
+              $or: [{ 'access_to_all': true }, { 'users': id }]
+            },
+          }
+        }
+      ]
+    }).countDocuments();
+
+    const approvals = await Application.find({
+      $and: [
+        { status: "ACTIVE" },
+        {
+          approvals: {
+            $elemMatch: {
+              'type_of_approval': 'approval',
+              $or: [{ 'access_to_all': true }, { 'users': id }],
+              'status': 'Pending'
+            },
+          }
+        }
+      ]
+    }).countDocuments();
+
+    const allApplications = await Application.find({}).countDocuments();
+
+    res.status(201).json({
+      success:true,
+      message: "Successfully sent all details",
+      data: {
+        inputRequests,
+        approvals,
+        allApplications
+      },
+    });
+
+
+  })

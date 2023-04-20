@@ -30,7 +30,7 @@ const applicationSchema = new mongoose.Schema({
   ],
   approvals: [
     {
-        _id: false,
+      _id: false,
       name: String,
       type_of_approval: {
         type: String,
@@ -43,6 +43,10 @@ const applicationSchema = new mongoose.Schema({
         type: String,
         enum: ["Completed", "Pending", "Rejected"],
         default: "Pending",
+      },
+      approval_by: {
+        type: mongoose.ObjectId,
+        ref: "User",
       },
       access_to_all: Boolean,
     },
@@ -61,7 +65,7 @@ const applicationSchema = new mongoose.Schema({
     type: String,
     enum: ["ACTIVE", "INACTIVE", "COMPLETED"],
     default: "ACTIVE",
-  }
+  },
 
 });
 
