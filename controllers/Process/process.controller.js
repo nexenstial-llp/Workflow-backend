@@ -87,7 +87,6 @@ export const getAllProcesses = bigPromise(async (req, res) => {
 
 export const getAllCreateProcess = bigPromise(async (req, res) => {
   const { id } = req.user;
-  console.log("id", id);
 
   await Process.find({
     $and: [
