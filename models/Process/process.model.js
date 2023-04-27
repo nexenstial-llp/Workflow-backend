@@ -29,7 +29,7 @@ const processSchema = new mongoose.Schema({
   ],
   approvals: [
     {
-      name: String,
+      title: String,
       type_of_approval: {
         type: String,
         enum: ["input", "approval", "create"],

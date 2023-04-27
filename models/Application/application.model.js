@@ -31,7 +31,7 @@ const applicationSchema = new mongoose.Schema({
   approvals: [
     {
       _id: false,
-      name: String,
+      title: String,
       type_of_approval: {
         type: String,
         enum: ["input", "approval", "create"],
@@ -67,6 +67,9 @@ const applicationSchema = new mongoose.Schema({
     default: "ACTIVE",
   },
 
+},
+{
+  timestamps: true
 });
 
 const Application = mongoose.model("Application", applicationSchema);
