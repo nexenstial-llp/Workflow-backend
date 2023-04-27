@@ -25,19 +25,10 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["admin", "users"],
-    // required:true,
     default: "users",
   },
   phoneNo: {
     type: Number,
-  },
-  photo: {
-    id: {
-      type: String,
-    },
-    secure_url: {
-      type: String,
-    },
   },
   forgotPasswordToken: String,
   forgotPasswordExpiry: Date,

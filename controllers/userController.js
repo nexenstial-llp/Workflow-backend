@@ -68,6 +68,8 @@ export const login = bigPromise(async (req, res, next) => {
     });
   }
 
+  console.log(user);
+
   cookieToken(user, res, "Successfully Logged In");
 });
 

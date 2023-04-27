@@ -46,6 +46,8 @@ export const updateApplication = bigPromise(async (req, res) => {
   const { id } = req.params;
   const { status, section, approvals } = req.body;
 
+  console.log(section);
+
   await Application.findByIdAndUpdate(id, {
     $set: {
       status: status,
