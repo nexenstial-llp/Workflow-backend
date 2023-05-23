@@ -51,7 +51,7 @@ const applicationSchema = new mongoose.Schema({
       access_to_all: Boolean,
     },
   ],
-
+  
   process_id: {
     type: mongoose.ObjectId,
     ref: "Process",

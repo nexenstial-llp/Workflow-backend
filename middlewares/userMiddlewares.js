@@ -30,6 +30,5 @@ export const customRole = (...roles) => {
         success: false,
         message: "you're not allowed for this resource.",
       });
-
 };
   }}
